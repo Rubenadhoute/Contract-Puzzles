@@ -18,8 +18,15 @@ describe('Game4', function () {
     const addressY = await signerY.getAddress();
 
     await game.connect(signerY).write(addressX);
+    // write(address x) --> nested[x][msg.sender]
+    // connect(signerY).write(addressX) --> nested[addressX][signerY]
 
+
+    // win(address y) --> require(nested[msg.sender][y])
     await game.win(addressY);
+    // equivalent to await game.connect(signerX).win(addressY);
+
+
 
     // leave this assertion as-is
     assert(await game.isWon(), 'You did not win the game');
